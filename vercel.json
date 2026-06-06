@@ -1,0 +1,8 @@
+{
+     "crons": [
+       {
+         "path": "/api/reports/daily?cron_key=02947cc5fc994a89718dbfd68f9cd4d5c31f166e6f2707571fe99d8a26e990ae",
+         "schedule": "0 18 * * *"
+       }
+     ]
+   }
