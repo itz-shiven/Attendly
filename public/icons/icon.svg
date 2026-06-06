@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181b" />
+      <stop offset="100%" stop-color="#09090b" />
+    </linearGradient>
+    <linearGradient id="helmetGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer circle background -->
+  <circle cx="256" cy="256" r="240" fill="url(#bgGrad)" stroke="#27272a" stroke-width="8" />
+  
+  <!-- Stylized building lines / structural design background -->
+  <path d="M120 400 L120 360 L180 300 L332 300 L392 360 L392 400 Z" fill="none" stroke="#27272a" stroke-width="4" stroke-dasharray="8 8" />
+  <line x1="256" y1="400" x2="256" y2="300" stroke="#27272a" stroke-width="4" stroke-dasharray="8 8" />
+
+  <!-- Hardhat base / rim -->
+  <path d="M140 330 C140 330 200 350 256 350 C312 350 372 330 372 330 C385 330 392 338 388 348 C380 365 330 380 256 380 C182 380 132 365 124 348 C120 338 127 330 140 330 Z" fill="url(#helmetGrad)" />
+
+  <!-- Hardhat dome -->
+  <path d="M164 320 C164 220 200 160 256 160 C312 160 348 220 348 320 Z" fill="url(#helmetGrad)" />
+
+  <!-- Hardhat middle ridge -->
+  <path d="M244 162 C244 162 250 220 250 320 L262 320 C262 220 268 162 268 162 Z" fill="#6ee7b7" opacity="0.8" />
+  
+  <!-- Small logo accent -->
+  <circle cx="256" cy="250" r="14" fill="#065f46" />
+  <path d="M252 245 L260 250 L252 255 Z" fill="#ffffff" />
+</svg>
