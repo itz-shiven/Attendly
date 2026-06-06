@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # CLAMS (Construction Labor Attendance Management System)
 
 An "Anti-Gravity" (ultra-lightweight, high-performance, and resilient) Construction Labor Attendance Management System. Built with Next.js 15 (App Router), Supabase (Auth, DB, RLS, Storage), Tailwind CSS, and TanStack Query v5.
@@ -76,3 +77,7 @@ To trigger the Daily CSV Report export automatically every evening at 6:00 PM lo
 4. Tap **Add Laborer** to register a worker. Capture a photo from your camera or upload a file; you will see the canvas compression ratio and size savings.
 5. Tap **Mark Attendance** to access the directory. Type in search queries to test 0ms filtering. Click a worker card or status pill (`P`, `H`, `A`) to mark attendance with real-time background sync.
 6. Return to the Dashboard and click **Generate Today's CSV** to export the compiled records to Supabase Storage.
+=======
+# Attendly
+A attendence app 
+>>>>>>> 35360a788c3b5c04555415be20dfb129c98fa46c
