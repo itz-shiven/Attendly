@@ -40,7 +40,7 @@ export default function DashboardPage() {
   });
 
   // Query engineer session & profile
-  const { data: profile, isLoading: isProfileLoading } = useQuery({
+  const { data: profile, isLoading: isProfileLoading, error: profileQueryError } = useQuery({
     queryKey: ['engineer-profile-dashboard'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -49,13 +49,16 @@ export default function DashboardPage() {
         throw new Error('Not authenticated');
       }
 
+      console.log('[Dashboard] Authenticated user:', user.id, user.email);
+
       const { data, error } = await supabase
         .from('profiles')
         .select(`
           id,
           email,
+          role,
           site_id,
-          sites (
+          sites!site_id (
             id,
             name,
             location
@@ -64,7 +67,15 @@ export default function DashboardPage() {
         .eq('id', user.id)
         .single();
 
+      console.log('[Dashboard] Supabase response:', { data, error });
+
       if (error) throw error;
+
+      if (data.role === 'Admin') {
+        console.log('[Dashboard] User is Admin, redirecting to /admin');
+        router.push('/admin');
+      }
+
       return data;
     },
     retry: false,
@@ -152,6 +163,23 @@ export default function DashboardPage() {
       <div className="flex flex-col items-center justify-center min-h-screen bg-zinc-950 text-white p-4">
         <Loader2 className="w-8 h-8 animate-spin text-emerald-500 mb-2" />
         <p className="text-zinc-400">Loading dashboard...</p>
+      </div>
+    );
+  }
+
+  if (profileQueryError) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-zinc-950 text-white p-4 text-center">
+        <p className="text-red-500 font-bold mb-2">Error loading profile data:</p>
+        <p className="text-zinc-400 max-w-md bg-zinc-900 border border-zinc-800 p-4 rounded-xl text-sm">
+          {(profileQueryError as Error).message}
+        </p>
+        <button 
+          onClick={() => window.location.reload()} 
+          className="mt-4 px-4 py-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-xl text-sm font-semibold"
+        >
+          Retry
+        </button>
       </div>
     );
   }

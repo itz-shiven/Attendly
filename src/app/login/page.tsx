@@ -21,11 +21,21 @@ export default function LoginPage() {
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        router.push('/');
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single();
+        
+        if (profile?.role === 'Admin') {
+          router.push('/admin');
+        } else {
+          router.push('/');
+        }
       }
     };
     checkUser();
-  }, [router, supabase.auth]);
+  }, [router, supabase]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,13 +53,22 @@ export default function LoginPage() {
         setSuccessMsg('Registration successful! Please check your email or sign in.');
         setIsSignUp(false);
       } else {
-        const { error } = await supabase.auth.signInWithPassword({
+        const { error, data } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
         if (error) throw error;
-        router.push('/');
-        router.refresh();
+
+        // Fetch role and redirect accordingly
+        if (data.user) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', data.user.id)
+            .single();
+          router.push(profile?.role === 'Admin' ? '/admin' : '/');
+          router.refresh();
+        }
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Authentication failed. Please try again.';

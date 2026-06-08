@@ -59,7 +59,7 @@ export default function RegisterLaborPage() {
           id,
           email,
           site_id,
-          sites (
+          sites!site_id (
             id,
             name,
             location

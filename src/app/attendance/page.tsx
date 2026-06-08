@@ -28,7 +28,7 @@ export default function AttendancePage() {
           id,
           email,
           site_id,
-          sites (
+          sites!site_id (
             id,
             name,
             location
