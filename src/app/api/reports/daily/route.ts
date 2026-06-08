@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
     // Verify authentication OR verify cron key
     const isCronAuthorized = cronKeyParam && process.env.CRON_SECRET && cronKeyParam === process.env.CRON_SECRET;
     
-    let engineerSiteId: string | null = null;
+    let activeSiteId: string | null = null;
 
     if (!isCronAuthorized) {
       const { data: { user } } = await supabase.auth.getUser();
@@ -80,21 +80,30 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Unauthorized. Please login or provide a valid cron key.' }, { status: 401 });
       }
 
-      // Fetch user profile to get their assigned site_id
+      // Fetch user profile to get their assigned site_id and role
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
-        .select('site_id')
+        .select('site_id, role')
         .eq('id', user.id)
         .single();
 
-      if (profileError || !profile?.site_id) {
-        return NextResponse.json({ error: 'Assigned construction site not found for engineer.' }, { status: 403 });
+      if (profileError) {
+        return NextResponse.json({ error: 'Failed to fetch user profile.' }, { status: 500 });
       }
-      engineerSiteId = profile.site_id;
-    }
 
-    // Determine target site_id (Engineers can only query their own site; cron can query any or all)
-    const activeSiteId = isCronAuthorized ? (siteIdParam || null) : engineerSiteId;
+      if (profile.role === 'Admin') {
+        // Admins can query any site requested in searchParams, or all sites if none specified
+        activeSiteId = siteIdParam || null;
+      } else {
+        // Engineers must have an assigned site_id and can only query that site
+        if (!profile.site_id) {
+          return NextResponse.json({ error: 'Assigned construction site not found for engineer.' }, { status: 403 });
+        }
+        activeSiteId = profile.site_id;
+      }
+    } else {
+      activeSiteId = siteIdParam || null;
+    }
 
     // Build the query
     let query = supabase

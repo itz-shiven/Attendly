@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { createClient } from '@/lib/supabase/client';
 import AttendanceSearch from '@/components/AttendanceSearch';
-import { ArrowLeft, MapPin, Users, Loader2, Download, PlusCircle, ShieldOff, Trash2 } from 'lucide-react';
+import { ArrowLeft, MapPin, Users, Loader2, Download, PlusCircle, ShieldOff, Trash2, FileSpreadsheet, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 
 interface EngineerOnSite {
@@ -76,6 +76,26 @@ export default function AdminSiteDetailPage() {
   const [terminateTarget, setTerminateTarget] = useState<EngineerOnSite | null>(null);
   const [isTerminating, setIsTerminating] = useState(false);
   const [terminateError, setTerminateError] = useState('');
+  const [reportLoading, setReportLoading] = useState(false);
+  const [reportUrl, setReportUrl] = useState<string | null>(null);
+  const [reportError, setReportError] = useState<string | null>(null);
+
+  const handleGenerateReport = async () => {
+    setReportLoading(true);
+    setReportUrl(null);
+    setReportError(null);
+    try {
+      const res = await fetch(`/api/reports/daily?date=${todayISO}&site_id=${siteId}`);
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error || 'Failed to generate report');
+      if (data.recordsCount === 0) throw new Error('No attendance records have been marked today yet.');
+      setReportUrl(data.downloadUrl);
+    } catch (err: unknown) {
+      setReportError(err instanceof Error ? err.message : 'Report generation failed');
+    } finally {
+      setReportLoading(false);
+    }
+  };
 
   const handleAddEngineer = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -205,14 +225,16 @@ export default function AdminSiteDetailPage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Link
-              href={`/api/reports/daily?date=${todayISO}&site_id=${siteId}`}
-              target="_blank"
-              className="flex items-center gap-1.5 px-3 py-2 bg-emerald-600/15 border border-emerald-500/25 text-emerald-400 text-xs font-bold rounded-xl hover:bg-emerald-600/25 transition-all min-h-[36px]"
+            <button
+              onClick={handleGenerateReport}
+              disabled={reportLoading}
+              className="flex items-center gap-1.5 px-3 py-2 bg-emerald-600/15 border border-emerald-500/25 text-emerald-400 text-xs font-bold rounded-xl hover:bg-emerald-600/25 disabled:opacity-60 transition-all min-h-[36px]"
             >
-              <Download className="w-3.5 h-3.5" />
-              CSV
-            </Link>
+              {reportLoading
+                ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                : <FileSpreadsheet className="w-3.5 h-3.5" />}
+              {reportLoading ? 'Generating...' : 'CSV'}
+            </button>
             <Link
               href={`/register?site=${siteId}`}
               className="flex items-center gap-1.5 px-3 py-2 bg-violet-600/15 border border-violet-500/25 text-violet-400 text-xs font-bold rounded-xl hover:bg-violet-600/25 transition-all min-h-[36px]"
@@ -225,6 +247,25 @@ export default function AdminSiteDetailPage() {
       </header>
 
       <main className="max-w-xl mx-auto p-4 flex flex-col gap-5">
+        {/* CSV report status */}
+        {reportError && (
+          <div className="flex items-center gap-2 px-3 py-2.5 bg-red-950/40 border border-red-800 text-red-400 rounded-xl text-xs font-semibold">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{reportError}</span>
+          </div>
+        )}
+        {reportUrl && (
+          <a
+            href={reportUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs min-h-[40px] transition-colors"
+          >
+            <Download className="w-3.5 h-3.5" />
+            Download CSV Report
+          </a>
+        )}
+
         {/* Success toast */}
         {addSuccess && (
           <div className="p-3 bg-emerald-950/50 border border-emerald-800 text-emerald-300 rounded-xl text-xs font-semibold">

@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import {
   Building2, Users, FileSpreadsheet,
   LogOut, HardHat, PlusCircle, ChevronRight,
-  MapPin, Loader2
+  MapPin, Loader2, Download, AlertCircle
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -30,6 +30,11 @@ export default function AdminDashboard() {
   const [newSiteName, setNewSiteName] = useState('');
   const [newSiteLocation, setNewSiteLocation] = useState('');
   const [creating, setCreating] = useState(false);
+  const [showCsvPicker, setShowCsvPicker] = useState(false);
+  const [reportLoading, setReportLoading] = useState<string | null>(null); // siteId or 'all'
+  const [reportUrl, setReportUrl] = useState<string | null>(null);
+  const [reportError, setReportError] = useState<string | null>(null);
+  const [reportSiteLabel, setReportSiteLabel] = useState<string>('');
 
   const todayISO = new Date().toISOString().split('T')[0];
   const todayLabel = new Date().toLocaleDateString('en-IN', {
@@ -94,6 +99,29 @@ export default function AdminDashboard() {
     await supabase.auth.signOut();
     queryClient.clear();
     router.push('/login');
+  };
+
+  const handleGenerateReport = async (siteId: string | null, siteLabel: string) => {
+    setShowCsvPicker(false);
+    setReportLoading(siteId || 'all');
+    setReportUrl(null);
+    setReportError(null);
+    setReportSiteLabel(siteLabel);
+    try {
+      const todayISO = new Date().toISOString().split('T')[0];
+      const url = siteId
+        ? `/api/reports/daily?date=${todayISO}&site_id=${siteId}`
+        : `/api/reports/daily?date=${todayISO}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error || 'Failed to generate report');
+      if (data.recordsCount === 0) throw new Error('No attendance records found for this site today.');
+      setReportUrl(data.downloadUrl);
+    } catch (err: unknown) {
+      setReportError(err instanceof Error ? err.message : 'Report generation failed');
+    } finally {
+      setReportLoading(null);
+    }
   };
 
   const handleCreateSite = async (e: React.FormEvent) => {
@@ -321,21 +349,98 @@ export default function AdminDashboard() {
             </div>
           </Link>
 
-          <Link
-            href={`/api/reports/daily?date=${todayISO}`}
-            target="_blank"
-            className="flex items-center gap-3 p-4 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-2xl transition-all group min-h-[72px]"
-          >
-            <div className="w-10 h-10 bg-zinc-800 rounded-xl flex items-center justify-center border border-zinc-700">
-              <FileSpreadsheet className="w-5 h-5 text-emerald-400" />
-            </div>
-            <div>
-              <p className="text-sm font-bold text-white">Export CSV</p>
-              <p className="text-[10px] text-zinc-500">All sites today</p>
-            </div>
-          </Link>
+          <div className="flex flex-col gap-2">
+            <button
+              onClick={() => { setShowCsvPicker(true); setReportUrl(null); setReportError(null); }}
+              disabled={!!reportLoading}
+              className="flex items-center gap-3 p-4 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 disabled:opacity-60 rounded-2xl transition-all group min-h-[72px] w-full text-left"
+            >
+              <div className="w-10 h-10 bg-zinc-800 rounded-xl flex items-center justify-center border border-zinc-700 shrink-0">
+                {reportLoading
+                  ? <Loader2 className="w-5 h-5 text-emerald-400 animate-spin" />
+                  : <FileSpreadsheet className="w-5 h-5 text-emerald-400" />}
+              </div>
+              <div>
+                <p className="text-sm font-bold text-white">Export CSV</p>
+                <p className="text-[10px] text-zinc-500">
+                  {reportLoading ? `Generating for ${reportSiteLabel}...` : 'Choose a site'}
+                </p>
+              </div>
+            </button>
+            {reportError && (
+              <div className="flex items-center gap-2 px-3 py-2 bg-red-950/40 border border-red-800 text-red-400 rounded-xl text-xs font-semibold">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{reportError}</span>
+              </div>
+            )}
+            {reportUrl && (
+              <a
+                href={reportUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs min-h-[40px] transition-colors"
+              >
+                <Download className="w-3.5 h-3.5" />
+                Download — {reportSiteLabel}
+              </a>
+            )}
+          </div>
         </div>
       </main>
+
+      {/* Site Picker Modal */}
+      {showCsvPicker && (
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="bg-zinc-900 border border-zinc-700 rounded-3xl p-5 w-full max-w-sm shadow-2xl flex flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <FileSpreadsheet className="w-5 h-5 text-emerald-400" />
+                <h3 className="text-base font-bold text-white">Generate CSV Report</h3>
+              </div>
+              <button
+                onClick={() => setShowCsvPicker(false)}
+                className="text-zinc-500 hover:text-zinc-300 text-xl leading-none transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="text-xs text-zinc-400">Select which site to generate today&apos;s attendance report for.</p>
+
+            <div className="flex flex-col gap-2 max-h-72 overflow-y-auto pr-1">
+              {/* All Sites option */}
+              <button
+                onClick={() => handleGenerateReport(null, 'All Sites')}
+                className="flex items-center gap-3 px-4 py-3 bg-zinc-800 hover:bg-violet-600/20 border border-zinc-700 hover:border-violet-500/40 rounded-2xl transition-all text-left group"
+              >
+                <div className="w-8 h-8 bg-violet-600/20 border border-violet-500/30 rounded-xl flex items-center justify-center shrink-0">
+                  <Building2 className="w-4 h-4 text-violet-400" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-white">All Sites</p>
+                  <p className="text-[10px] text-zinc-500">Consolidated report for all sites</p>
+                </div>
+              </button>
+
+              {/* Individual sites */}
+              {siteStats.map(site => (
+                <button
+                  key={site.id}
+                  onClick={() => handleGenerateReport(site.id, site.name)}
+                  className="flex items-center gap-3 px-4 py-3 bg-zinc-800 hover:bg-emerald-600/20 border border-zinc-700 hover:border-emerald-500/40 rounded-2xl transition-all text-left group"
+                >
+                  <div className="w-8 h-8 bg-emerald-600/10 border border-emerald-500/20 rounded-xl flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4 text-emerald-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-bold text-white truncate">{site.name}</p>
+                    <p className="text-[10px] text-zinc-500">{site.present} present · {site.totalWorkers} total</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
