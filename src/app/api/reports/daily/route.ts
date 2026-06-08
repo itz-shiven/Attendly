@@ -176,8 +176,9 @@ export async function GET(request: NextRequest) {
     }
 
     // Upload CSV to Supabase Storage
-    const siteName = (records[0].sites as unknown as SiteRecord)?.name || 'site';
-    const fileName = `${siteName}_${targetDate}.csv`.replace(/[^a-z0-9]/gi, '_');
+    const rawSiteName = (records[0].sites as unknown as SiteRecord)?.name || 'site';
+    const siteName = rawSiteName.replace(/[^a-z0-9]/gi, '_'); // sanitize site name only
+    const fileName = `${siteName}_${targetDate}.csv`;
 
     const filePath = `daily-reports/${targetDate}/${fileName}`;
 
