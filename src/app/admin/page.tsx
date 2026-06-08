@@ -143,16 +143,16 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white pb-16">
+    <div className="min-h-screen bg-slate-50 text-slate-900 pb-16">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-zinc-900/80 backdrop-blur-md border-b border-zinc-800 px-4 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 py-4 flex items-center justify-between shadow-xs">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-violet-600 rounded-lg flex items-center justify-center border border-violet-500/30">
+          <div className="w-9 h-9 bg-violet-600 rounded-lg flex items-center justify-center border border-violet-500/10">
             <HardHat className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-base font-bold leading-tight">Admin Command Centre</h1>
-            <p className="text-[10px] text-violet-400 font-semibold uppercase tracking-wider">
+            <h1 className="text-base font-bold leading-tight text-slate-900">Admin Command Centre</h1>
+            <p className="text-[10px] text-violet-600 font-semibold uppercase tracking-wider">
               {profile?.full_name || profile?.email}
             </p>
           </div>
@@ -160,47 +160,47 @@ export default function AdminDashboard() {
         <div className="flex items-center gap-2">
           <Link
             href="/admin/engineers"
-            className="p-2.5 bg-zinc-800 hover:bg-zinc-700 rounded-xl border border-zinc-700 transition-colors"
+            className="p-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition-colors cursor-pointer"
             title="Manage Engineers"
           >
-            <Users className="w-4 h-4 text-violet-400" />
+            <Users className="w-4 h-4 text-violet-600" />
           </Link>
           <button
             onClick={handleSignOut}
-            className="p-2.5 bg-zinc-800 hover:bg-zinc-700 rounded-xl border border-zinc-700 transition-colors"
+            className="p-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition-colors cursor-pointer"
             title="Sign Out"
           >
-            <LogOut className="w-4 h-4 text-zinc-400" />
+            <LogOut className="w-4 h-4 text-slate-500" />
           </button>
         </div>
       </header>
 
       <main className="max-w-xl mx-auto p-4 flex flex-col gap-5">
         {/* Date + Global Stats Strip */}
-        <div className="bg-gradient-to-br from-violet-950/60 to-zinc-900 border border-violet-800/40 rounded-3xl p-5 shadow-xl relative overflow-hidden">
-          <div className="absolute -right-8 -top-8 w-32 h-32 bg-violet-500/10 rounded-full blur-2xl" />
-          <p className="text-xs text-zinc-400 font-semibold mb-3">{todayLabel}</p>
+        <div className="bg-gradient-to-br from-violet-50 to-white border border-violet-100 rounded-3xl p-5 shadow-xs relative overflow-hidden">
+          <div className="absolute -right-8 -top-8 w-32 h-32 bg-violet-500/5 rounded-full blur-2xl" />
+          <p className="text-xs text-slate-500 font-semibold mb-3">{todayLabel}</p>
           <div className="grid grid-cols-3 gap-3">
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-semibold tracking-wider">Sites</span>
-              <span className="text-2xl font-black text-white">{siteStats.length}</span>
+              <span className="text-[10px] text-slate-500 uppercase font-semibold tracking-wider">Sites</span>
+              <span className="text-2xl font-black text-slate-900">{siteStats.length}</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-semibold tracking-wider">Total Force</span>
-              <span className="text-2xl font-black text-white">{totalWorkers}</span>
+              <span className="text-[10px] text-slate-500 uppercase font-semibold tracking-wider">Total Force</span>
+              <span className="text-2xl font-black text-slate-900">{totalWorkers}</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] text-emerald-500 uppercase font-semibold tracking-wider">Present</span>
-              <span className="text-2xl font-black text-emerald-400">{totalPresent}</span>
+              <span className="text-[10px] text-emerald-650 uppercase font-semibold tracking-wider">Present</span>
+              <span className="text-2xl font-black text-emerald-600">{totalPresent}</span>
             </div>
           </div>
           {totalWorkers > 0 && (
             <div className="mt-4">
-              <div className="flex justify-between text-[10px] text-zinc-500 mb-1">
+              <div className="flex justify-between text-[10px] text-slate-500 mb-1">
                 <span>Attendance Rate</span>
-                <span className="text-emerald-400 font-bold">{Math.round((totalPresent / totalWorkers) * 100)}%</span>
+                <span className="text-emerald-600 font-bold">{Math.round((totalPresent / totalWorkers) * 100)}%</span>
               </div>
-              <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+              <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-emerald-500 rounded-full transition-all duration-700"
                   style={{ width: `${Math.round((totalPresent / totalWorkers) * 100)}%` }}
@@ -212,15 +212,15 @@ export default function AdminDashboard() {
 
         {/* Section header */}
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
-            <Building2 className="w-4 h-4 text-violet-500" />
+          <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-violet-600" />
             Construction Sites
           </h2>
           <button
             onClick={() => setShowNewSite(!showNewSite)}
-            className="flex items-center gap-1.5 px-3 py-2 bg-violet-600/20 border border-violet-500/30 text-violet-300 text-xs font-bold rounded-xl hover:bg-violet-600/30 transition-all min-h-[36px]"
+            className="flex items-center gap-1.5 px-3 py-2 bg-violet-50 border border-violet-200 text-violet-755 text-xs font-bold rounded-xl hover:bg-violet-100 transition-all min-h-[36px] cursor-pointer"
           >
-            <PlusCircle className="w-3.5 h-3.5" />
+            <PlusCircle className="w-3.5 h-3.5 text-violet-600" />
             New Site
           </button>
         </div>
@@ -229,36 +229,36 @@ export default function AdminDashboard() {
         {showNewSite && (
           <form
             onSubmit={handleCreateSite}
-            className="bg-zinc-900 border border-violet-800/40 rounded-2xl p-4 flex flex-col gap-3"
+            className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col gap-3 shadow-xs"
           >
-            <h3 className="text-sm font-bold text-violet-300">Create New Site</h3>
+            <h3 className="text-sm font-bold text-violet-755">Create New Site</h3>
             <input
               type="text"
               required
               placeholder="Site name (e.g. Tower B, Block 4)"
               value={newSiteName}
               onChange={e => setNewSiteName(e.target.value)}
-              className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl focus:border-violet-500 focus:outline-none text-white text-sm min-h-[44px] placeholder-zinc-600"
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-violet-500 focus:outline-none text-slate-900 text-sm min-h-[44px] placeholder-slate-400"
             />
             <input
               type="text"
               placeholder="Location (optional)"
               value={newSiteLocation}
               onChange={e => setNewSiteLocation(e.target.value)}
-              className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl focus:border-violet-500 focus:outline-none text-white text-sm min-h-[44px] placeholder-zinc-600"
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-violet-500 focus:outline-none text-slate-900 text-sm min-h-[44px] placeholder-slate-400"
             />
             <div className="flex gap-2">
               <button
                 type="button"
                 onClick={() => setShowNewSite(false)}
-                className="flex-1 py-2.5 bg-zinc-800 text-zinc-300 font-semibold rounded-xl text-sm hover:bg-zinc-700 transition-colors"
+                className="flex-1 py-2.5 bg-slate-100 text-slate-700 font-semibold rounded-xl text-sm hover:bg-slate-200 border border-slate-200 transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={creating}
-                className="flex-1 py-2.5 bg-violet-600 text-white font-bold rounded-xl text-sm hover:bg-violet-500 transition-colors flex items-center justify-center gap-2"
+                className="flex-1 py-2.5 bg-violet-600 text-white font-bold rounded-xl text-sm hover:bg-violet-500 transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 {creating ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Create Site'}
               </button>
@@ -272,9 +272,9 @@ export default function AdminDashboard() {
             <Loader2 className="w-7 h-7 animate-spin text-violet-500" />
           </div>
         ) : siteStats.length === 0 ? (
-          <div className="text-center py-16 bg-zinc-900/30 border border-dashed border-zinc-800 rounded-3xl">
-            <Building2 className="w-10 h-10 text-zinc-700 mx-auto mb-3" />
-            <p className="text-zinc-500 text-sm">No sites yet. Create your first site above.</p>
+          <div className="text-center py-16 bg-white border border-dashed border-slate-200 rounded-3xl shadow-xs">
+            <Building2 className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+            <p className="text-slate-450 text-sm">No sites yet. Create your first site above.</p>
           </div>
         ) : (
           <div className="flex flex-col gap-3">
@@ -287,47 +287,47 @@ export default function AdminDashboard() {
                 <Link
                   key={site.id}
                   href={`/admin/sites/${site.id}`}
-                  className="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-3xl p-4 transition-all hover:scale-[1.005] active:scale-[0.998] group shadow-md"
+                  className="bg-white border border-slate-200 hover:border-slate-350 rounded-3xl p-4 transition-all hover:scale-[1.005] active:scale-[0.998] group shadow-xs"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="min-w-0">
-                      <h3 className="font-bold text-base text-white truncate leading-tight">{site.name}</h3>
+                      <h3 className="font-bold text-base text-slate-900 truncate leading-tight">{site.name}</h3>
                       <div className="flex items-center gap-1 mt-1">
-                        <MapPin className="w-3 h-3 text-zinc-600 shrink-0" />
-                        <span className="text-xs text-zinc-500 truncate">{site.location || 'No location'}</span>
+                        <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
+                        <span className="text-xs text-slate-500 truncate">{site.location || 'No location'}</span>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-zinc-600 group-hover:text-zinc-400 group-hover:translate-x-0.5 transition-all shrink-0 mt-0.5" />
+                    <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-slate-650 group-hover:translate-x-0.5 transition-all shrink-0 mt-0.5" />
                   </div>
 
                   {/* Stats row */}
                   <div className="grid grid-cols-4 gap-2 mb-3">
                     <div className="text-center">
-                      <p className="text-[10px] text-zinc-500 font-semibold">Total</p>
-                      <p className="text-base font-black text-zinc-300">{site.totalWorkers}</p>
+                      <p className="text-[10px] text-slate-500 font-semibold">Total</p>
+                      <p className="text-base font-black text-slate-755">{site.totalWorkers}</p>
                     </div>
                     <div className="text-center">
                       <p className="text-[10px] text-emerald-600 font-semibold">Present</p>
-                      <p className="text-base font-black text-emerald-400">{site.present}</p>
+                      <p className="text-base font-black text-emerald-650">{site.present}</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-[10px] text-yellow-600 font-semibold">Half Day</p>
-                      <p className="text-base font-black text-yellow-400">{site.halfDay}</p>
+                      <p className="text-[10px] text-amber-600 font-semibold">Half Day</p>
+                      <p className="text-base font-black text-amber-500">{site.halfDay}</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-[10px] text-red-600 font-semibold">Absent</p>
-                      <p className="text-base font-black text-red-400">{site.absent + site.unmarked}</p>
+                      <p className="text-[10px] text-red-655 font-semibold">Absent</p>
+                      <p className="text-base font-black text-red-600">{site.absent + site.unmarked}</p>
                     </div>
                   </div>
 
                   {/* Progress bar */}
-                  <div className="h-1 bg-zinc-800 rounded-full overflow-hidden">
+                  <div className="h-1 bg-slate-100 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-emerald-500 rounded-full transition-all duration-700"
                       style={{ width: `${attendanceRate}%` }}
                     />
                   </div>
-                  <p className="text-[10px] text-zinc-600 mt-1 text-right">{attendanceRate}% attendance</p>
+                  <p className="text-[10px] text-slate-400 mt-1 text-right">{attendanceRate}% attendance</p>
                 </Link>
               );
             })}
@@ -338,14 +338,14 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-2 gap-3">
           <Link
             href="/admin/engineers"
-            className="flex items-center gap-3 p-4 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-2xl transition-all group min-h-[72px]"
+            className="flex items-center gap-3 p-4 bg-white border border-slate-200 hover:border-slate-300 rounded-2xl transition-all group min-h-[72px]"
           >
-            <div className="w-10 h-10 bg-zinc-800 rounded-xl flex items-center justify-center border border-zinc-700">
-              <Users className="w-5 h-5 text-violet-400" />
+            <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center border border-slate-200">
+              <Users className="w-5 h-5 text-violet-600" />
             </div>
             <div>
-              <p className="text-sm font-bold text-white">Engineers</p>
-              <p className="text-[10px] text-zinc-500">Manage team</p>
+              <p className="text-sm font-bold text-slate-900">Engineers</p>
+              <p className="text-[10px] text-slate-500">Manage team</p>
             </div>
           </Link>
 
@@ -353,23 +353,23 @@ export default function AdminDashboard() {
             <button
               onClick={() => { setShowCsvPicker(true); setReportUrl(null); setReportError(null); }}
               disabled={!!reportLoading}
-              className="flex items-center gap-3 p-4 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 disabled:opacity-60 rounded-2xl transition-all group min-h-[72px] w-full text-left"
+              className="flex items-center gap-3 p-4 bg-white border border-slate-200 hover:border-slate-300 disabled:opacity-60 rounded-2xl transition-all group min-h-[72px] w-full text-left cursor-pointer"
             >
-              <div className="w-10 h-10 bg-zinc-800 rounded-xl flex items-center justify-center border border-zinc-700 shrink-0">
+              <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center border border-slate-200 shrink-0">
                 {reportLoading
-                  ? <Loader2 className="w-5 h-5 text-emerald-400 animate-spin" />
-                  : <FileSpreadsheet className="w-5 h-5 text-emerald-400" />}
+                  ? <Loader2 className="w-5 h-5 text-emerald-600 animate-spin" />
+                  : <FileSpreadsheet className="w-5 h-5 text-emerald-600" />}
               </div>
               <div>
-                <p className="text-sm font-bold text-white">Export CSV</p>
-                <p className="text-[10px] text-zinc-500">
+                <p className="text-sm font-bold text-slate-900">Export CSV</p>
+                <p className="text-[10px] text-slate-500">
                   {reportLoading ? `Generating for ${reportSiteLabel}...` : 'Choose a site'}
                 </p>
               </div>
             </button>
             {reportError && (
-              <div className="flex items-center gap-2 px-3 py-2 bg-red-950/40 border border-red-800 text-red-400 rounded-xl text-xs font-semibold">
-                <AlertCircle className="w-4 h-4 shrink-0" />
+              <div className="flex items-center gap-2 px-3 py-2 bg-red-50 border border-red-200 text-red-750 rounded-xl text-xs font-semibold">
+                <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
                 <span>{reportError}</span>
               </div>
             )}
@@ -390,34 +390,34 @@ export default function AdminDashboard() {
 
       {/* Site Picker Modal */}
       {showCsvPicker && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-zinc-900 border border-zinc-700 rounded-3xl p-5 w-full max-w-sm shadow-2xl flex flex-col gap-4">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
+          <div className="bg-white border border-slate-200 rounded-3xl p-5 w-full max-w-sm shadow-xl flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <FileSpreadsheet className="w-5 h-5 text-emerald-400" />
-                <h3 className="text-base font-bold text-white">Generate CSV Report</h3>
+                <FileSpreadsheet className="w-5 h-5 text-emerald-600" />
+                <h3 className="text-base font-bold text-slate-900">Generate CSV Report</h3>
               </div>
               <button
                 onClick={() => setShowCsvPicker(false)}
-                className="text-zinc-500 hover:text-zinc-300 text-xl leading-none transition-colors"
+                className="text-slate-400 hover:text-slate-650 text-xl leading-none transition-colors cursor-pointer"
               >
                 ✕
               </button>
             </div>
-            <p className="text-xs text-zinc-400">Select which site to generate today&apos;s attendance report for.</p>
+            <p className="text-xs text-slate-500">Select which site to generate today&apos;s attendance report for.</p>
 
             <div className="flex flex-col gap-2 max-h-72 overflow-y-auto pr-1">
               {/* All Sites option */}
               <button
                 onClick={() => handleGenerateReport(null, 'All Sites')}
-                className="flex items-center gap-3 px-4 py-3 bg-zinc-800 hover:bg-violet-600/20 border border-zinc-700 hover:border-violet-500/40 rounded-2xl transition-all text-left group"
+                className="flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-violet-50 border border-slate-200 hover:border-violet-300 rounded-2xl transition-all text-left group cursor-pointer"
               >
-                <div className="w-8 h-8 bg-violet-600/20 border border-violet-500/30 rounded-xl flex items-center justify-center shrink-0">
-                  <Building2 className="w-4 h-4 text-violet-400" />
+                <div className="w-8 h-8 bg-violet-50 border border-violet-100 rounded-xl flex items-center justify-center shrink-0">
+                  <Building2 className="w-4 h-4 text-violet-650" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-white">All Sites</p>
-                  <p className="text-[10px] text-zinc-500">Consolidated report for all sites</p>
+                  <p className="text-sm font-bold text-slate-805">All Sites</p>
+                  <p className="text-[10px] text-slate-500">Consolidated report for all sites</p>
                 </div>
               </button>
 
@@ -426,14 +426,14 @@ export default function AdminDashboard() {
                 <button
                   key={site.id}
                   onClick={() => handleGenerateReport(site.id, site.name)}
-                  className="flex items-center gap-3 px-4 py-3 bg-zinc-800 hover:bg-emerald-600/20 border border-zinc-700 hover:border-emerald-500/40 rounded-2xl transition-all text-left group"
+                  className="flex items-center gap-3 px-4 py-3 bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 rounded-2xl transition-all text-left group cursor-pointer"
                 >
-                  <div className="w-8 h-8 bg-emerald-600/10 border border-emerald-500/20 rounded-xl flex items-center justify-center shrink-0">
-                    <MapPin className="w-4 h-4 text-emerald-400" />
+                  <div className="w-8 h-8 bg-emerald-50 border border-emerald-100 rounded-xl flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4 text-emerald-600" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-white truncate">{site.name}</p>
-                    <p className="text-[10px] text-zinc-500">{site.present} present · {site.totalWorkers} total</p>
+                    <p className="text-sm font-bold text-slate-805 truncate">{site.name}</p>
+                    <p className="text-[10px] text-slate-500">{site.present} present · {site.totalWorkers} total</p>
                   </div>
                 </button>
               ))}

@@ -199,24 +199,24 @@ function RegisterLaborPageContent() {
 
   if (isProfileLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-zinc-950 text-white p-4">
-        <Loader2 className="w-8 h-8 animate-spin text-emerald-500 mb-2" />
-        <p className="text-zinc-400">Loading site assignment...</p>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 text-slate-900 p-4">
+        <Loader2 className="w-8 h-8 animate-spin text-emerald-600 mb-2" />
+        <p className="text-slate-500">Loading site assignment...</p>
       </div>
     );
   }
 
   if (profileError || !profile?.site_id) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-zinc-950 text-white p-6 text-center">
-        <div className="bg-red-950/40 border border-red-800 rounded-2xl p-6 max-w-sm">
-          <h2 className="text-red-400 font-bold text-lg mb-2">Access Denied</h2>
-          <p className="text-zinc-300 text-sm mb-6">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 text-slate-900 p-6 text-center">
+        <div className="bg-red-50 border border-red-200 rounded-2xl p-6 max-w-sm shadow-xs">
+          <h2 className="text-red-650 font-bold text-lg mb-2">Access Denied</h2>
+          <p className="text-slate-650 text-sm mb-6">
             {profileError?.message || 'You are not assigned to any active site. Please contact your administrator.'}
           </p>
           <Link
             href="/login"
-            className="block w-full py-3 bg-zinc-800 text-white font-semibold rounded-xl hover:bg-zinc-700 transition-colors"
+            className="block w-full py-3 bg-slate-100 text-slate-700 font-semibold rounded-xl hover:bg-slate-200 border border-slate-200 transition-colors"
           >
             Go to Login
           </Link>
@@ -228,19 +228,19 @@ function RegisterLaborPageContent() {
   const siteInfo = profile?.sites as unknown as SiteInfo | null;
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white pb-12">
+    <div className="min-h-screen bg-slate-50 text-slate-900 pb-12">
       {/* Header */}
-      <header className="sticky top-0 bg-zinc-900/80 backdrop-blur-md border-b border-zinc-800 px-4 py-4 z-40 flex items-center justify-between">
+      <header className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 py-4 z-40 flex items-center justify-between shadow-xs">
         <div className="flex items-center gap-3">
           <Link 
             href={profile?.role === 'Admin' ? `/admin/sites/${profile.site_id}` : '/'} 
-            className="p-2 -ml-2 rounded-lg hover:bg-zinc-800 transition-colors"
+            className="p-2 -ml-2 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
           >
-            <ArrowLeft className="w-6 h-6 text-zinc-300" />
+            <ArrowLeft className="w-6 h-6 text-slate-650" />
           </Link>
           <div>
-            <h1 className="text-lg font-bold">Add Laborer</h1>
-            <p className="text-xs text-emerald-500 font-medium">
+            <h1 className="text-lg font-bold text-slate-900">Add Laborer</h1>
+            <p className="text-xs text-emerald-600 font-medium">
               Site: {siteInfo?.name || 'Unassigned'}
             </p>
           </div>
@@ -251,7 +251,7 @@ function RegisterLaborPageContent() {
       <main className="max-w-md mx-auto p-4 mt-2">
         {showCamera ? (
           <div className="py-2">
-            <h3 className="text-center text-sm text-zinc-400 mb-3">Position the worker in frame</h3>
+            <h3 className="text-center text-sm text-slate-500 mb-3">Position the worker in frame</h3>
             <CameraCapture
               onCapture={handleCameraCapture}
               onClose={() => setShowCamera(false)}
@@ -260,26 +260,26 @@ function RegisterLaborPageContent() {
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             {errorMessage && (
-              <div className="p-4 bg-red-950/50 border border-red-800 text-red-300 rounded-xl text-sm font-medium">
+              <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm font-medium">
                 {errorMessage}
               </div>
             )}
 
             {success && (
-              <div className="p-4 bg-emerald-950/50 border border-emerald-800 text-emerald-300 rounded-xl text-sm font-semibold flex items-center gap-2 animate-bounce">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+              <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-750 rounded-xl text-sm font-semibold flex items-center gap-2 animate-bounce">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
                 Laborer registered successfully!
               </div>
             )}
 
             {/* Photo Section */}
-            <div className="bg-zinc-900 rounded-2xl p-5 border border-zinc-800 flex flex-col items-center">
-              <label className="text-sm font-semibold text-zinc-400 mb-4 self-start">
+            <div className="bg-white rounded-2xl p-5 border border-slate-200 flex flex-col items-center shadow-xs">
+              <label className="text-xs font-bold text-slate-400 mb-4 self-start uppercase tracking-wider">
                 Worker Photo <span className="text-red-500">*</span>
               </label>
 
               {photoPreview ? (
-                <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-zinc-800 mb-4 group shadow-xl bg-zinc-950">
+                <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-slate-100 mb-4 group shadow-md bg-slate-50">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={photoPreview}
@@ -291,7 +291,7 @@ function RegisterLaborPageContent() {
                   </div>
                 </div>
               ) : (
-                <div className="w-40 h-40 rounded-full bg-zinc-800/50 border-2 border-dashed border-zinc-700 flex flex-col items-center justify-center text-zinc-500 mb-4 shadow-inner">
+                <div className="w-40 h-40 rounded-full bg-slate-50 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-slate-400 mb-4 shadow-inner">
                   <Camera className="w-10 h-10 mb-1" />
                   <span className="text-[10px] uppercase tracking-wider font-semibold">No Image</span>
                 </div>
@@ -299,14 +299,14 @@ function RegisterLaborPageContent() {
 
               {/* Compression feedback */}
               {compressedSizeKB && (
-                <div className="text-xs text-zinc-400 text-center mb-4 leading-relaxed">
-                  <span className="text-emerald-400 font-bold">Compressed: {compressedSizeKB} KB</span>
+                <div className="text-xs text-slate-500 text-center mb-4 leading-relaxed">
+                  <span className="text-emerald-600 font-bold">Compressed: {compressedSizeKB} KB</span>
                   {originalSizeKB && (
                     <>
                       {' '}
-                      <span className="line-through text-zinc-600">({originalSizeKB} KB)</span>
+                      <span className="line-through text-slate-400">({originalSizeKB} KB)</span>
                       <br />
-                      <span className="text-[10px] text-zinc-500">Saved {originalSizeKB - compressedSizeKB} KB ({Math.round(((originalSizeKB - compressedSizeKB) / originalSizeKB) * 100)}% reduction)</span>
+                      <span className="text-[10px] text-slate-400">Saved {originalSizeKB - compressedSizeKB} KB ({Math.round(((originalSizeKB - compressedSizeKB) / originalSizeKB) * 100)}% reduction)</span>
                     </>
                   )}
                 </div>
@@ -317,14 +317,14 @@ function RegisterLaborPageContent() {
                 <button
                   type="button"
                   onClick={() => setShowCamera(true)}
-                  className="flex items-center justify-center gap-2 px-4 py-3 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-semibold rounded-xl text-sm min-h-[48px] transition-all shadow-md"
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-semibold rounded-xl text-sm min-h-[48px] transition-all shadow-md cursor-pointer"
                 >
                   <Camera className="w-4 h-4" />
                   Use Camera
                 </button>
                 
-                <label className="flex items-center justify-center gap-2 px-4 py-3 bg-zinc-800 hover:bg-zinc-700 active:scale-95 text-zinc-200 font-semibold rounded-xl text-sm min-h-[48px] cursor-pointer transition-all border border-zinc-700 text-center">
-                  <Upload className="w-4 h-4 text-zinc-400" />
+                <label className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-755 font-semibold rounded-xl text-sm min-h-[48px] cursor-pointer transition-all border border-slate-200 text-center">
+                  <Upload className="w-4 h-4 text-slate-500" />
                   Upload Photo
                   <input
                     type="file"
@@ -338,16 +338,16 @@ function RegisterLaborPageContent() {
             </div>
 
             {/* General Info Card */}
-            <div className="bg-zinc-900 rounded-2xl p-5 border border-zinc-800 flex flex-col gap-4">
-              <h3 className="text-sm font-bold text-zinc-400 mb-1 border-b border-zinc-800 pb-2">Personal Details</h3>
+            <div className="bg-white rounded-2xl p-5 border border-slate-200 flex flex-col gap-4 shadow-xs">
+              <h3 className="text-xs font-bold text-slate-400 mb-1 border-b border-slate-200 pb-2 uppercase tracking-wider">Personal Details</h3>
               
               {/* Full Name */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-zinc-300" htmlFor="name">
+                <label className="text-xs font-semibold text-slate-650" htmlFor="name">
                   Full Name <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
                     id="name"
                     type="text"
@@ -355,18 +355,18 @@ function RegisterLaborPageContent() {
                     placeholder="Enter worker's full name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl focus:border-emerald-500 focus:outline-none text-white text-base min-h-[48px] placeholder-zinc-600 transition-colors"
+                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-emerald-500 focus:outline-none text-slate-900 text-base min-h-[48px] placeholder-slate-400 transition-colors"
                   />
                 </div>
               </div>
 
               {/* Mobile Number */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-zinc-300" htmlFor="mobile">
+                <label className="text-xs font-semibold text-slate-650" htmlFor="mobile">
                   Mobile Number <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
-                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
                     id="mobile"
                     type="tel"
@@ -375,24 +375,24 @@ function RegisterLaborPageContent() {
                     placeholder="Enter 10-digit number"
                     value={mobile}
                     onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                    className="w-full pl-12 pr-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl focus:border-emerald-500 focus:outline-none text-white text-base min-h-[48px] placeholder-zinc-600 transition-colors"
+                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-emerald-500 focus:outline-none text-slate-900 text-base min-h-[48px] placeholder-slate-400 transition-colors"
                   />
                 </div>
               </div>
 
               {/* Trade Type */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-zinc-300" htmlFor="trade">
+                <label className="text-xs font-semibold text-slate-650" htmlFor="trade">
                   Trade / Occupation <span className="text-red-500">*</span>
                 </label>
                 <select
                   id="trade"
                   value={trade}
                   onChange={(e) => setTrade(e.target.value as typeof TRADES[number])}
-                  className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl focus:border-emerald-500 focus:outline-none text-white text-base min-h-[48px] transition-colors appearance-none cursor-pointer"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-emerald-500 focus:outline-none text-slate-900 text-base min-h-[48px] transition-colors appearance-none cursor-pointer"
                 >
                   {TRADES.map((t) => (
-                    <option key={t} value={t} className="bg-zinc-900">
+                    <option key={t} value={t} className="bg-white text-slate-900">
                       {t}
                     </option>
                   ))}
@@ -401,16 +401,16 @@ function RegisterLaborPageContent() {
             </div>
 
             {/* Document details Card */}
-            <div className="bg-zinc-900 rounded-2xl p-5 border border-zinc-800 flex flex-col gap-4">
-              <h3 className="text-sm font-bold text-zinc-400 mb-1 border-b border-zinc-800 pb-2">Verification Documents</h3>
+            <div className="bg-white rounded-2xl p-5 border border-slate-200 flex flex-col gap-4 shadow-xs">
+              <h3 className="text-xs font-bold text-slate-400 mb-1 border-b border-slate-200 pb-2 uppercase tracking-wider">Verification Documents</h3>
 
               {/* Aadhaar Number */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-zinc-300" htmlFor="aadhaar">
+                <label className="text-xs font-semibold text-slate-655" htmlFor="aadhaar">
                   Aadhaar Number <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
-                  <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+                  <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
                     id="aadhaar"
                     type="text"
@@ -420,18 +420,18 @@ function RegisterLaborPageContent() {
                     onFocus={() => setAadhaarFocused(true)}
                     onBlur={() => setAadhaarFocused(false)}
                     onChange={(e) => setAadhaar(formatAadhaar(e.target.value))}
-                    className="w-full pl-12 pr-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl focus:border-emerald-500 focus:outline-none text-white text-base min-h-[48px] placeholder-zinc-600 transition-colors"
+                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-emerald-500 focus:outline-none text-slate-900 text-base min-h-[48px] placeholder-slate-400 transition-colors"
                   />
                 </div>
               </div>
 
               {/* PAN Card */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-zinc-300" htmlFor="pan">
+                <label className="text-xs font-semibold text-slate-655" htmlFor="pan">
                   PAN Number <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
-                  <Shield className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+                  <Shield className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
                     id="pan"
                     type="text"
@@ -441,7 +441,7 @@ function RegisterLaborPageContent() {
                     onFocus={() => setPanFocused(true)}
                     onBlur={() => setPanFocused(false)}
                     onChange={(e) => setPan(formatPan(e.target.value))}
-                    className="w-full pl-12 pr-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl focus:border-emerald-500 focus:outline-none text-white text-base min-h-[48px] placeholder-zinc-600 transition-colors"
+                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-emerald-500 focus:outline-none text-slate-900 text-base min-h-[48px] placeholder-slate-400 transition-colors"
                   />
                 </div>
               </div>
@@ -451,7 +451,7 @@ function RegisterLaborPageContent() {
             <button
               type="submit"
               disabled={registerMutation.isPending}
-              className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] disabled:bg-emerald-850 disabled:text-emerald-300 text-white font-bold rounded-2xl text-base min-h-[52px] transition-all flex items-center justify-center gap-2 shadow-lg"
+              className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] disabled:bg-slate-100 disabled:text-slate-400 text-white font-bold rounded-2xl text-base min-h-[52px] transition-all flex items-center justify-center gap-2 shadow-md shadow-emerald-600/10 cursor-pointer"
             >
               {registerMutation.isPending ? (
                 <>
@@ -472,9 +472,9 @@ function RegisterLaborPageContent() {
 export default function RegisterLaborPage() {
   return (
     <Suspense fallback={
-      <div className="flex flex-col items-center justify-center min-h-screen bg-zinc-950 text-white p-4">
-        <Loader2 className="w-8 h-8 animate-spin text-emerald-500 mb-2" />
-        <p className="text-zinc-400">Loading form...</p>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 text-slate-900 p-4">
+        <Loader2 className="w-8 h-8 animate-spin text-emerald-600 mb-2" />
+        <p className="text-slate-500">Loading form...</p>
       </div>
     }>
       <RegisterLaborPageContent />

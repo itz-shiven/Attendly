@@ -137,29 +137,29 @@ export default function AdminEngineersPage() {
   const isLoading = isAdminLoading || isEngLoading;
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white pb-16">
+    <div className="min-h-screen bg-slate-50 text-slate-900 pb-16">
       {/* Terminate Confirmation Modal */}
       {terminateTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-zinc-900 border border-red-800/60 rounded-3xl p-6 max-w-sm w-full shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
+          <div className="bg-white border border-red-200 rounded-3xl p-6 max-w-sm w-full shadow-lg">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-red-950/60 border border-red-700/50 rounded-xl flex items-center justify-center shrink-0">
-                <ShieldOff className="w-5 h-5 text-red-400" />
+              <div className="w-10 h-10 bg-red-50 border border-red-200 rounded-xl flex items-center justify-center shrink-0">
+                <ShieldOff className="w-5 h-5 text-red-600" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-white">Terminate Access</h3>
-                <p className="text-xs text-zinc-500">This action cannot be undone</p>
+                <h3 className="text-base font-bold text-slate-900">Terminate Access</h3>
+                <p className="text-xs text-slate-500">This action cannot be undone</p>
               </div>
             </div>
 
-            <p className="text-sm text-zinc-300 mb-1">
+            <p className="text-sm text-slate-600 mb-1">
               You are about to permanently revoke access for:
             </p>
-            <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-3 mb-5">
-              <p className="font-bold text-white text-sm">{terminateTarget.full_name || '(No name)'}</p>
-              <p className="text-xs text-zinc-500">{terminateTarget.email}</p>
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 mb-5">
+              <p className="font-bold text-slate-900 text-sm">{terminateTarget.full_name || '(No name)'}</p>
+              <p className="text-xs text-slate-500">{terminateTarget.email}</p>
               {terminateTarget.sites && (
-                <p className="text-xs text-amber-400 mt-1">
+                <p className="text-xs text-amber-600 mt-1">
                   Assigned to: {(terminateTarget.sites as { name: string }).name}
                 </p>
               )}
@@ -169,14 +169,14 @@ export default function AdminEngineersPage() {
               <button
                 onClick={() => setTerminateTarget(null)}
                 disabled={isTerminating}
-                className="flex-1 py-2.5 bg-zinc-800 text-zinc-300 font-semibold rounded-xl text-sm hover:bg-zinc-700 transition-colors"
+                className="flex-1 py-2.5 bg-slate-100 text-slate-700 font-semibold rounded-xl text-sm hover:bg-slate-200 border border-slate-200 transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleTerminate}
                 disabled={isTerminating}
-                className="flex-1 py-2.5 bg-red-700 hover:bg-red-600 text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
+                className="flex-1 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 {isTerminating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                 Terminate
@@ -187,14 +187,14 @@ export default function AdminEngineersPage() {
       )}
 
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-zinc-900/80 backdrop-blur-md border-b border-zinc-800 px-4 py-4">
+      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 py-4 shadow-xs">
         <div className="flex items-center gap-3 max-w-xl mx-auto">
-          <Link href="/admin" className="p-2 -ml-2 rounded-lg hover:bg-zinc-800 transition-colors">
-            <ArrowLeft className="w-5 h-5 text-zinc-400" />
+          <Link href="/admin" className="p-2 -ml-2 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer">
+            <ArrowLeft className="w-5 h-5 text-slate-500" />
           </Link>
           <div>
-            <h1 className="text-base font-bold">Engineer Management</h1>
-            <p className="text-[10px] text-violet-400 font-semibold uppercase tracking-wider">
+            <h1 className="text-base font-bold text-slate-900">Engineer Management</h1>
+            <p className="text-[10px] text-violet-600 font-semibold uppercase tracking-wider">
               {engineers.length} engineers across {sites.length} sites
             </p>
           </div>
@@ -203,15 +203,15 @@ export default function AdminEngineersPage() {
 
       <main className="max-w-xl mx-auto p-4 flex flex-col gap-4">
         {/* Info banner */}
-        <div className="bg-violet-950/30 border border-violet-800/40 rounded-2xl p-4">
+        <div className="bg-violet-50 border border-violet-200 rounded-2xl p-4">
           <div className="flex items-start gap-3">
-            <UserPlus className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
+            <UserPlus className="w-5 h-5 text-violet-600 shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm font-semibold text-violet-300">Managing Engineers</p>
-              <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
+              <p className="text-sm font-semibold text-violet-700">Managing Engineers</p>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                 Create engineer accounts directly from a site&apos;s detail page. 
-                Here you can <span className="font-semibold text-white">assign sites</span> or{' '}
-                <span className="font-semibold text-red-400">terminate access</span> for any engineer.
+                Here you can <span className="font-semibold text-slate-900">assign sites</span> or{' '}
+                <span className="font-semibold text-red-600">terminate access</span> for any engineer.
               </p>
             </div>
           </div>
@@ -219,13 +219,13 @@ export default function AdminEngineersPage() {
 
         {/* Success / Error toasts */}
         {successMsg && (
-          <div className="p-3 bg-emerald-950/50 border border-emerald-800 text-emerald-300 rounded-xl text-xs font-semibold flex items-center gap-2">
+          <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-xs font-semibold flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 shrink-0" />
             {successMsg}
           </div>
         )}
         {errorMsg && (
-          <div className="p-3 bg-red-950/50 border border-red-800 text-red-300 rounded-xl text-xs font-semibold flex items-center gap-2">
+          <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-xl text-xs font-semibold flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
             {errorMsg}
           </div>
@@ -237,10 +237,10 @@ export default function AdminEngineersPage() {
             <Loader2 className="w-7 h-7 animate-spin text-violet-500" />
           </div>
         ) : engineers.length === 0 ? (
-          <div className="text-center py-16 bg-zinc-900/30 border border-dashed border-zinc-800 rounded-3xl">
-            <Users className="w-10 h-10 text-zinc-700 mx-auto mb-3" />
-            <p className="text-zinc-500 text-sm font-semibold">No engineers yet.</p>
-            <p className="text-zinc-600 text-xs mt-1">Create engineers from a site&apos;s detail page.</p>
+          <div className="text-center py-16 bg-white border border-dashed border-slate-200 rounded-3xl shadow-xs">
+            <Users className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+            <p className="text-slate-500 text-sm font-semibold">No engineers yet.</p>
+            <p className="text-slate-400 text-xs mt-1">Create engineers from a site&apos;s detail page.</p>
           </div>
         ) : (
           <div className="flex flex-col gap-3">
@@ -253,31 +253,31 @@ export default function AdminEngineersPage() {
               return (
                 <div
                   key={eng.id}
-                  className={`bg-zinc-900 border rounded-2xl p-4 transition-all ${
-                    isEditing ? 'border-violet-600/60' : 'border-zinc-800'
+                  className={`bg-white border rounded-2xl p-4 transition-all shadow-xs ${
+                    isEditing ? 'border-violet-400' : 'border-slate-200'
                   }`}
                 >
                   {/* Engineer info */}
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-violet-600/15 border border-violet-500/25 rounded-full flex items-center justify-center shrink-0">
-                      <span className="text-sm font-bold text-violet-400">
+                    <div className="w-10 h-10 bg-violet-50 border border-violet-200 rounded-full flex items-center justify-center shrink-0">
+                      <span className="text-sm font-bold text-violet-600">
                         {(eng.full_name || eng.email).charAt(0).toUpperCase()}
                       </span>
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="font-bold text-sm text-white truncate">
+                      <p className="font-bold text-sm text-slate-900 truncate">
                         {eng.full_name || '(No name set)'}
                       </p>
-                      <p className="text-xs text-zinc-500 truncate">{eng.email}</p>
+                      <p className="text-xs text-slate-500 truncate">{eng.email}</p>
                     </div>
                     {/* Terminate button */}
                     {!isEditing && (
                       <button
                         onClick={() => setTerminateTarget(eng)}
                         title="Terminate access"
-                        className="p-1.5 bg-red-950/40 border border-red-800/40 rounded-lg hover:bg-red-900/50 transition-colors shrink-0"
+                        className="p-1.5 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors shrink-0 cursor-pointer"
                       >
-                        <ShieldOff className="w-3.5 h-3.5 text-red-400" />
+                        <ShieldOff className="w-3.5 h-3.5 text-red-600" />
                       </button>
                     )}
                   </div>
@@ -285,12 +285,12 @@ export default function AdminEngineersPage() {
                   {/* Site assignment row */}
                   <div className="flex items-center gap-2">
                     <div className="flex items-center gap-1.5 flex-1 min-w-0">
-                      <MapPin className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
+                      <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                       {isEditing ? (
                         <select
                           value={selectedSiteId}
                           onChange={e => setSelectedSiteId(e.target.value)}
-                          className="flex-1 px-2 py-1.5 bg-zinc-950 border border-violet-600/50 rounded-lg text-xs text-white focus:outline-none focus:border-violet-500"
+                          className="flex-1 px-2 py-1.5 bg-slate-50 border border-violet-300 rounded-lg text-xs text-slate-900 focus:outline-none focus:border-violet-500"
                         >
                           <option value="">— Unassigned —</option>
                           {sites.map(s => (
@@ -299,7 +299,7 @@ export default function AdminEngineersPage() {
                         </select>
                       ) : (
                         <span className={`text-xs font-semibold truncate ${
-                          eng.sites ? 'text-emerald-400' : 'text-zinc-600 italic'
+                          eng.sites ? 'text-emerald-600' : 'text-slate-400 italic'
                         }`}>
                           {eng.sites ? (eng.sites as { name: string }).name : 'Unassigned'}
                         </span>
@@ -314,7 +314,7 @@ export default function AdminEngineersPage() {
                             assignMutation.mutate({ engineerId: eng.id, siteId: selectedSiteId });
                           }}
                           disabled={assignMutation.isPending}
-                          className="flex items-center gap-1 px-2.5 py-1.5 bg-violet-600 text-white text-xs font-bold rounded-lg hover:bg-violet-500 transition-colors min-h-[32px]"
+                          className="flex items-center gap-1 px-2.5 py-1.5 bg-violet-600 text-white text-xs font-bold rounded-lg hover:bg-violet-500 transition-colors min-h-[32px] cursor-pointer"
                         >
                           {assignMutation.isPending
                             ? <Loader2 className="w-3 h-3 animate-spin" />
@@ -323,9 +323,9 @@ export default function AdminEngineersPage() {
                         </button>
                         <button
                           onClick={() => setEditingId(null)}
-                          className="p-1.5 bg-zinc-800 rounded-lg hover:bg-zinc-700 transition-colors"
+                          className="p-1.5 bg-slate-100 border border-slate-200 rounded-lg hover:bg-slate-200 transition-colors cursor-pointer"
                         >
-                          <X className="w-3.5 h-3.5 text-zinc-400" />
+                          <X className="w-3.5 h-3.5 text-slate-500" />
                         </button>
                       </div>
                     ) : (
@@ -334,7 +334,7 @@ export default function AdminEngineersPage() {
                           setEditingId(eng.id);
                           setSelectedSiteId(eng.site_id || '');
                         }}
-                        className="flex items-center gap-1 px-2.5 py-1.5 bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-semibold rounded-lg hover:bg-zinc-700 transition-colors min-h-[32px]"
+                        className="flex items-center gap-1 px-2.5 py-1.5 bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-200 transition-colors min-h-[32px] cursor-pointer"
                       >
                         <Edit2 className="w-3 h-3" />
                         Assign
@@ -342,7 +342,7 @@ export default function AdminEngineersPage() {
                     )}
                   </div>
 
-                  <p className="text-[10px] text-zinc-700 mt-2">Joined {joinedDate}</p>
+                  <p className="text-[10px] text-slate-400 mt-2">Joined {joinedDate}</p>
                 </div>
               );
             })}

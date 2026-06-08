@@ -219,8 +219,8 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
   if (isLoadingLaborers || isLoadingAttendance) {
     return (
       <div className="flex flex-col items-center justify-center p-12">
-        <RefreshCcw className="w-8 h-8 animate-spin text-emerald-500 mb-2" />
-        <p className="text-sm text-zinc-400">Loading worker directory...</p>
+        <RefreshCcw className="w-8 h-8 animate-spin text-emerald-600 mb-2" />
+        <p className="text-sm text-slate-550">Loading worker directory...</p>
       </div>
     );
   }
@@ -228,26 +228,26 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
   return (
     <div className="flex flex-col gap-4">
       {/* Network Sync Indicator */}
-      <div className="flex items-center justify-between px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl">
+      <div className="flex items-center justify-between px-3 py-2 bg-white border border-slate-200 rounded-xl shadow-xs">
         <div className="flex items-center gap-2">
           {attendanceMutation.isPending ? (
             <>
-              <RefreshCcw className="w-4 h-4 animate-spin text-yellow-500" />
-              <span className="text-xs text-yellow-500 font-semibold">Syncing in background...</span>
+              <RefreshCcw className="w-4 h-4 animate-spin text-amber-500" />
+              <span className="text-xs text-amber-600 font-semibold">Syncing in background...</span>
             </>
           ) : syncError ? (
             <>
               <AlertCircle className="w-4 h-4 text-red-500 shrink-0" />
-              <span className="text-xs text-red-400 font-semibold truncate max-w-[200px]">{syncError}</span>
+              <span className="text-xs text-red-650 font-semibold truncate max-w-[200px]">{syncError}</span>
             </>
           ) : (
             <>
-              <Wifi className="w-4 h-4 text-emerald-500" />
-              <span className="text-xs text-emerald-500 font-semibold">Offline-ready / Cloud Synced</span>
+              <Wifi className="w-4 h-4 text-emerald-600" />
+              <span className="text-xs text-emerald-600 font-semibold">Offline-ready / Cloud Synced</span>
             </>
           )}
         </div>
-        <span className="text-xs text-zinc-400 font-bold bg-zinc-800 px-2.5 py-1 rounded-md">
+        <span className="text-xs text-slate-650 font-bold bg-slate-100 px-2.5 py-1 rounded-md">
           Date: {today}
         </span>
       </div>
@@ -256,45 +256,45 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
       <div className="grid grid-cols-4 gap-2">
         <button
           onClick={() => setFilterStatus('all')}
-          className={`flex flex-col items-center p-2 rounded-xl border transition-all ${
-            filterStatus === 'all' ? 'bg-zinc-800 border-zinc-700' : 'bg-zinc-900/40 border-zinc-850'
+          className={`flex flex-col items-center p-2 rounded-xl border transition-all cursor-pointer ${
+            filterStatus === 'all' ? 'bg-slate-200 border-slate-300 text-slate-900 font-bold shadow-xs' : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
           }`}
         >
-          <span className="text-xs text-zinc-400 font-semibold">Total</span>
-          <span className="text-lg font-bold">{stats.total}</span>
+          <span className="text-[10px] sm:text-xs text-slate-500 font-semibold">Total</span>
+          <span className="text-base sm:text-lg font-bold">{stats.total}</span>
         </button>
         <button
           onClick={() => setFilterStatus('Present')}
-          className={`flex flex-col items-center p-2 rounded-xl border transition-all ${
-            filterStatus === 'Present' ? 'bg-emerald-950/30 border-emerald-800 text-emerald-400' : 'bg-zinc-900/40 border-zinc-850'
+          className={`flex flex-col items-center p-2 rounded-xl border transition-all cursor-pointer ${
+            filterStatus === 'Present' ? 'bg-emerald-100 border-emerald-300 text-emerald-800 font-bold shadow-xs' : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
           }`}
         >
-          <span className="text-xs text-emerald-500/80 font-semibold">Present</span>
-          <span className="text-lg font-bold">{stats.present}</span>
+          <span className="text-[10px] sm:text-xs text-emerald-600 font-semibold">Present</span>
+          <span className="text-base sm:text-lg font-bold">{stats.present}</span>
         </button>
         <button
           onClick={() => setFilterStatus('unmarked')}
-          className={`flex flex-col items-center p-2 rounded-xl border transition-all ${
-            filterStatus === 'unmarked' ? 'bg-zinc-800 border-zinc-700 text-zinc-300' : 'bg-zinc-900/40 border-zinc-850'
+          className={`flex flex-col items-center p-2 rounded-xl border transition-all cursor-pointer ${
+            filterStatus === 'unmarked' ? 'bg-slate-200 border-slate-300 text-slate-900 font-bold shadow-xs' : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
           }`}
         >
-          <span className="text-xs text-zinc-400 font-semibold">Pending</span>
-          <span className="text-lg font-bold">{stats.unmarked}</span>
+          <span className="text-[10px] sm:text-xs text-slate-550 font-semibold">Pending</span>
+          <span className="text-base sm:text-lg font-bold">{stats.unmarked}</span>
         </button>
         <button
           onClick={() => setFilterStatus('Absent')}
-          className={`flex flex-col items-center p-2 rounded-xl border transition-all ${
-            filterStatus === 'Absent' ? 'bg-red-950/30 border-red-900/70 text-red-400' : 'bg-zinc-900/40 border-zinc-850'
+          className={`flex flex-col items-center p-2 rounded-xl border transition-all cursor-pointer ${
+            filterStatus === 'Absent' ? 'bg-red-100 border-red-300 text-red-800 font-bold shadow-xs' : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
           }`}
         >
-          <span className="text-xs text-red-500/80 font-semibold">Absent</span>
-          <span className="text-lg font-bold">{stats.absent + stats.halfDay}</span>
+          <span className="text-[10px] sm:text-xs text-red-600 font-semibold">Absent</span>
+          <span className="text-base sm:text-lg font-bold">{stats.absent + stats.halfDay}</span>
         </button>
       </div>
 
       {/* Search Input Box */}
       <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
         <input
           type="text"
           value={searchQuery}
@@ -305,7 +305,7 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
             }
           }}
           placeholder="Search by Name, Mobile, Aadhaar..."
-          className={`w-full pl-12 py-3.5 bg-zinc-900 border border-zinc-800 rounded-2xl focus:border-emerald-500 focus:outline-none text-white text-base min-h-[48px] placeholder-zinc-500 transition-colors ${
+          className={`w-full pl-12 py-3.5 bg-white border border-slate-200 rounded-2xl focus:border-emerald-500 focus:outline-none text-slate-900 text-base min-h-[48px] placeholder-slate-400 transition-colors shadow-xs ${
             searchQuery ? (hasSearched && filteredLaborers.length === 0 ? 'pr-[170px]' : 'pr-[130px]') : 'pr-[80px]'
           }`}
         />
@@ -313,7 +313,7 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
           {searchQuery && (
             <button
               onClick={handleClearSearch}
-              className="text-xs font-semibold bg-zinc-800 hover:bg-zinc-700 px-2.5 py-1.5 rounded-xl text-zinc-400 min-h-[32px] flex items-center justify-center cursor-pointer select-none"
+              className="text-xs font-semibold bg-slate-100 hover:bg-slate-200 px-2.5 py-1.5 rounded-xl text-slate-500 min-h-[32px] flex items-center justify-center cursor-pointer select-none border border-slate-200"
             >
               Clear
             </button>
@@ -328,7 +328,7 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
           ) : (
             <button
               onClick={handleSearchSubmit}
-              className="text-xs font-bold bg-zinc-800 hover:bg-zinc-750 active:scale-95 text-zinc-300 border border-zinc-700/80 px-3 py-1.5 rounded-xl transition-all shadow-sm min-h-[32px] flex items-center justify-center cursor-pointer select-none"
+              className="text-xs font-bold bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 border border-slate-200 px-3 py-1.5 rounded-xl transition-all shadow-xs min-h-[32px] flex items-center justify-center cursor-pointer select-none"
             >
               Search
             </button>
@@ -339,8 +339,8 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
       {/* Laborer Directory List */}
       <div className="flex flex-col gap-3">
         {filteredLaborers.length === 0 ? (
-          <div className="text-center py-12 bg-zinc-900/20 border border-dashed border-zinc-850 rounded-2xl flex flex-col items-center justify-center gap-3">
-            <p className="text-sm text-zinc-500">No laborers found matching filters.</p>
+          <div className="text-center py-12 bg-white border border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center gap-3">
+            <p className="text-sm text-slate-500">No laborers found matching filters.</p>
             {searchQuery.trim() && (
               <Link
                 href={`/register?site=${siteId}&name=${encodeURIComponent(searchQuery.trim())}`}
@@ -361,12 +361,12 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
                 onClick={() => handleMarkPresent(worker.id)}
                 className={`p-3 rounded-2xl border transition-all duration-200 cursor-pointer select-none flex items-center justify-between min-h-[72px] ${
                   status === 'Present'
-                    ? 'bg-emerald-950/20 border-emerald-800/80 shadow-md shadow-emerald-950/10'
+                    ? 'bg-emerald-50 border-emerald-250 shadow-xs'
                     : status === 'Absent'
-                    ? 'bg-red-950/20 border-red-900/60'
+                    ? 'bg-red-50 border-red-200'
                     : status === 'Half Day'
-                    ? 'bg-yellow-950/10 border-yellow-900/40'
-                    : 'bg-zinc-900 border-zinc-800/80 hover:border-zinc-700'
+                    ? 'bg-amber-50 border-amber-250'
+                    : 'bg-white border-slate-200 hover:border-slate-350 shadow-xs'
                 }`}
               >
                 {/* Photo & Name Info */}
@@ -376,22 +376,22 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
                     <img
                       src={worker.photo_url}
                       alt={worker.name}
-                      className="w-12 h-12 rounded-full object-cover shrink-0 border border-zinc-800 bg-zinc-800"
+                      className="w-12 h-12 rounded-full object-cover shrink-0 border border-slate-200 bg-slate-100"
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center shrink-0 border border-zinc-750 font-bold text-zinc-400 text-sm">
+                    <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center shrink-0 border border-slate-200 font-bold text-slate-500 text-sm">
                       {worker.name.charAt(0).toUpperCase()}
                     </div>
                   )}
 
                   <div className="min-w-0">
-                    <h4 className="font-semibold text-sm truncate text-white leading-tight">
+                    <h4 className="font-semibold text-sm truncate text-slate-900 leading-tight">
                       {worker.name}
                     </h4>
-                    <p className="text-[11px] text-zinc-400 mt-0.5 font-medium">
+                    <p className="text-[11px] text-slate-500 mt-0.5 font-medium">
                       {worker.trade} • {worker.mobile}
                     </p>
-                    <p className="text-[10px] text-zinc-500 mt-0.5">
+                    <p className="text-[10px] text-slate-400 mt-0.5">
                       UID: {maskAadhaar(worker.aadhaar)}
                     </p>
                   </div>
@@ -400,13 +400,13 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
                 {/* Instant Action Controls */}
                 <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
                   {/* Status Selection Buttons */}
-                  <div className="flex bg-zinc-950 p-1 rounded-xl border border-zinc-800">
+                  <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-250">
                     <button
                       onClick={() => handleStatusChange(worker.id, 'Present')}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-extrabold min-h-[38px] transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-extrabold min-h-[38px] transition-all cursor-pointer ${
                         status === 'Present'
                           ? 'bg-emerald-600 text-white shadow-md'
-                          : 'text-emerald-500/80 hover:bg-zinc-900'
+                          : 'text-emerald-600 hover:bg-slate-200/50'
                       }`}
                       title="Present"
                     >
@@ -414,10 +414,10 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
                     </button>
                     <button
                       onClick={() => handleStatusChange(worker.id, 'Half Day')}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-extrabold min-h-[38px] transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-extrabold min-h-[38px] transition-all cursor-pointer ${
                         status === 'Half Day'
-                          ? 'bg-yellow-600 text-white shadow-md'
-                          : 'text-yellow-500/80 hover:bg-zinc-900'
+                          ? 'bg-amber-500 text-white shadow-md'
+                          : 'text-amber-500 hover:bg-slate-200/50'
                       }`}
                       title="Half Day"
                     >
@@ -425,10 +425,10 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
                     </button>
                     <button
                       onClick={() => handleStatusChange(worker.id, 'Absent')}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-extrabold min-h-[38px] transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-extrabold min-h-[38px] transition-all cursor-pointer ${
                         status === 'Absent'
                           ? 'bg-red-600 text-white shadow-md'
-                          : 'text-red-500/80 hover:bg-zinc-900'
+                          : 'text-red-500 hover:bg-slate-200/50'
                       }`}
                       title="Absent"
                     >
@@ -438,8 +438,8 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
 
                   {/* Sync status checkmark */}
                   {status === 'Present' && (
-                    <div className="w-6 h-6 rounded-full bg-emerald-600/20 flex items-center justify-center border border-emerald-500/30 shrink-0">
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                    <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center border border-emerald-200 shrink-0">
+                      <Check className="w-3.5 h-3.5 text-emerald-600" />
                     </div>
                   )}
                 </div>

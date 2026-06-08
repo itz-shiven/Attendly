@@ -151,52 +151,52 @@ export default function AdminSiteDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-zinc-950 text-white">
-        <Loader2 className="w-7 h-7 animate-spin text-violet-500" />
+      <div className="flex items-center justify-center min-h-screen bg-slate-50 text-slate-900">
+        <Loader2 className="w-7 h-7 animate-spin text-violet-650" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white pb-16">
+    <div className="min-h-screen bg-slate-50 text-slate-900 pb-16">
       {/* Terminate Confirmation Modal */}
       {terminateTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-zinc-900 border border-red-800/60 rounded-3xl p-6 max-w-sm w-full shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
+          <div className="bg-white border border-red-200 rounded-3xl p-6 max-w-sm w-full shadow-lg">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-red-950/60 border border-red-700/50 rounded-xl flex items-center justify-center shrink-0">
-                <ShieldOff className="w-5 h-5 text-red-400" />
+              <div className="w-10 h-10 bg-red-50 border border-red-205 rounded-xl flex items-center justify-center shrink-0">
+                <ShieldOff className="w-5 h-5 text-red-650" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-white">Terminate Access</h3>
-                <p className="text-xs text-zinc-500">This action cannot be undone</p>
+                <h3 className="text-base font-bold text-slate-900">Terminate Access</h3>
+                <p className="text-xs text-slate-500">This action cannot be undone</p>
               </div>
             </div>
 
-            <p className="text-sm text-zinc-300 mb-1">
+            <p className="text-sm text-slate-650 mb-1">
               Permanently revoke access for:
             </p>
-            <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-3 mb-4">
-              <p className="font-bold text-white text-sm">{terminateTarget.full_name || '(No name)'}</p>
-              <p className="text-xs text-zinc-500">{terminateTarget.email}</p>
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 mb-4">
+              <p className="font-bold text-slate-900 text-sm">{terminateTarget.full_name || '(No name)'}</p>
+              <p className="text-xs text-slate-500">{terminateTarget.email}</p>
             </div>
 
             {terminateError && (
-              <p className="text-xs text-red-400 mb-3">{terminateError}</p>
+              <p className="text-xs text-red-600 mb-3">{terminateError}</p>
             )}
 
             <div className="flex gap-2">
               <button
                 onClick={() => { setTerminateTarget(null); setTerminateError(''); }}
                 disabled={isTerminating}
-                className="flex-1 py-2.5 bg-zinc-800 text-zinc-300 font-semibold rounded-xl text-sm hover:bg-zinc-700 transition-colors"
+                className="flex-1 py-2.5 bg-slate-100 text-slate-700 font-semibold rounded-xl text-sm hover:bg-slate-200 border border-slate-200 transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleTerminate}
                 disabled={isTerminating}
-                className="flex-1 py-2.5 bg-red-700 hover:bg-red-600 text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
+                className="flex-1 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 {isTerminating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                 Terminate
@@ -207,19 +207,19 @@ export default function AdminSiteDetailPage() {
       )}
 
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-zinc-900/80 backdrop-blur-md border-b border-zinc-800 px-4 py-4">
+      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 py-4 shadow-xs">
         <div className="flex items-center justify-between max-w-xl mx-auto">
           <div className="flex items-center gap-3">
-            <Link href="/admin" className="p-2 -ml-2 rounded-lg hover:bg-zinc-800 transition-colors">
-              <ArrowLeft className="w-5 h-5 text-zinc-400" />
+            <Link href="/admin" className="p-2 -ml-2 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer">
+              <ArrowLeft className="w-5 h-5 text-slate-500" />
             </Link>
             <div>
-              <h1 className="text-base font-bold leading-tight truncate max-w-[200px]">
+              <h1 className="text-base font-bold leading-tight truncate max-w-[200px] text-slate-900">
                 {site?.name || 'Site Detail'}
               </h1>
               <div className="flex items-center gap-1 mt-0.5">
-                <MapPin className="w-3 h-3 text-zinc-600" />
-                <span className="text-[10px] text-zinc-500">{site?.location || 'No location'}</span>
+                <MapPin className="w-3 h-3 text-slate-400" />
+                <span className="text-[10px] text-slate-500">{site?.location || 'No location'}</span>
               </div>
             </div>
           </div>
@@ -228,7 +228,7 @@ export default function AdminSiteDetailPage() {
             <button
               onClick={handleGenerateReport}
               disabled={reportLoading}
-              className="flex items-center gap-1.5 px-3 py-2 bg-emerald-600/15 border border-emerald-500/25 text-emerald-400 text-xs font-bold rounded-xl hover:bg-emerald-600/25 disabled:opacity-60 transition-all min-h-[36px]"
+              className="flex items-center gap-1.5 px-3 py-2 bg-emerald-50 border border-emerald-250 text-emerald-700 text-xs font-bold rounded-xl hover:bg-emerald-100 disabled:opacity-60 transition-all min-h-[36px] cursor-pointer"
             >
               {reportLoading
                 ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -237,9 +237,9 @@ export default function AdminSiteDetailPage() {
             </button>
             <Link
               href={`/register?site=${siteId}`}
-              className="flex items-center gap-1.5 px-3 py-2 bg-violet-600/15 border border-violet-500/25 text-violet-400 text-xs font-bold rounded-xl hover:bg-violet-600/25 transition-all min-h-[36px]"
+              className="flex items-center gap-1.5 px-3 py-2 bg-violet-50 border border-violet-200 text-violet-700 text-xs font-bold rounded-xl hover:bg-violet-100 transition-all min-h-[36px]"
             >
-              <PlusCircle className="w-3.5 h-3.5" />
+              <PlusCircle className="w-3.5 h-3.5 text-violet-650" />
               Add Labor
             </Link>
           </div>
@@ -249,8 +249,8 @@ export default function AdminSiteDetailPage() {
       <main className="max-w-xl mx-auto p-4 flex flex-col gap-5">
         {/* CSV report status */}
         {reportError && (
-          <div className="flex items-center gap-2 px-3 py-2.5 bg-red-950/40 border border-red-800 text-red-400 rounded-xl text-xs font-semibold">
-            <AlertCircle className="w-4 h-4 shrink-0" />
+          <div className="flex items-center gap-2 px-3 py-2.5 bg-red-50 border border-red-200 text-red-700 rounded-xl text-xs font-semibold">
+            <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
             <span>{reportError}</span>
           </div>
         )}
@@ -268,40 +268,40 @@ export default function AdminSiteDetailPage() {
 
         {/* Success toast */}
         {addSuccess && (
-          <div className="p-3 bg-emerald-950/50 border border-emerald-800 text-emerald-300 rounded-xl text-xs font-semibold">
+          <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-750 rounded-xl text-xs font-semibold">
             {addSuccess}
           </div>
         )}
 
         {/* Engineers on this site */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4">
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-violet-500" />
-              <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+              <Users className="w-4 h-4 text-violet-600" />
+              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                 Assigned Engineers ({engineers.length})
               </h3>
             </div>
             <button
               onClick={() => setShowAddForm(!showAddForm)}
-              className="flex items-center gap-1.5 px-2 py-1 bg-violet-600/20 text-violet-300 text-xs font-bold rounded-lg hover:bg-violet-600/30 transition-all"
+              className="flex items-center gap-1.5 px-2.5 py-1 bg-violet-50 text-violet-700 text-xs font-bold rounded-lg hover:bg-violet-100 transition-all cursor-pointer border border-violet-100"
             >
-              <PlusCircle className="w-3.5 h-3.5" />
+              <PlusCircle className="w-3.5 h-3.5 text-violet-650" />
               Add Engineer
             </button>
           </div>
 
           {showAddForm && (
-            <form onSubmit={handleAddEngineer} className="mb-4 bg-zinc-950 p-3 rounded-xl border border-violet-800/40 flex flex-col gap-2">
-              <h4 className="text-xs font-bold text-violet-400 mb-1">Create Engineer Account</h4>
-              {addError && <p className="text-[10px] text-red-400">{addError}</p>}
+            <form onSubmit={handleAddEngineer} className="mb-4 bg-slate-50 p-3 rounded-xl border border-violet-100 flex flex-col gap-2 shadow-xs">
+              <h4 className="text-xs font-bold text-violet-700 mb-1">Create Engineer Account</h4>
+              {addError && <p className="text-[10px] text-red-600">{addError}</p>}
               <input
                 type="text"
                 required
                 placeholder="Full Name"
                 value={engName}
                 onChange={e => setEngName(e.target.value)}
-                className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-lg focus:border-violet-500 focus:outline-none text-white text-xs"
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:border-violet-500 focus:outline-none text-slate-900 text-xs"
               />
               <input
                 type="email"
@@ -309,7 +309,7 @@ export default function AdminSiteDetailPage() {
                 placeholder="Email Address"
                 value={engEmail}
                 onChange={e => setEngEmail(e.target.value)}
-                className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-lg focus:border-violet-500 focus:outline-none text-white text-xs"
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:border-violet-500 focus:outline-none text-slate-900 text-xs"
               />
               <input
                 type="password"
@@ -317,20 +317,20 @@ export default function AdminSiteDetailPage() {
                 placeholder="Password"
                 value={engPassword}
                 onChange={e => setEngPassword(e.target.value)}
-                className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-lg focus:border-violet-500 focus:outline-none text-white text-xs"
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:border-violet-500 focus:outline-none text-slate-900 text-xs"
               />
               <div className="flex gap-2 mt-1">
                 <button
                   type="button"
                   onClick={() => setShowAddForm(false)}
-                  className="flex-1 py-2 bg-zinc-800 text-zinc-300 font-semibold rounded-lg text-xs hover:bg-zinc-700 transition-colors"
+                  className="flex-1 py-2 bg-slate-100 text-slate-700 font-semibold rounded-lg text-xs hover:bg-slate-200 border border-slate-200 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isAdding}
-                  className="flex-1 py-2 bg-violet-600 text-white font-bold rounded-lg text-xs hover:bg-violet-500 transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 py-2 bg-violet-600 text-white font-bold rounded-lg text-xs hover:bg-violet-500 transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {isAdding ? <Loader2 className="w-3 h-3 animate-spin" /> : 'Create'}
                 </button>
@@ -339,33 +339,33 @@ export default function AdminSiteDetailPage() {
           )}
 
           {engineers.length === 0 && !showAddForm ? (
-            <p className="text-xs text-zinc-500 italic">No engineers assigned. Use &quot;Add Engineer&quot; above.</p>
+            <p className="text-xs text-slate-500 italic">No engineers assigned. Use &quot;Add Engineer&quot; above.</p>
           ) : (
             <div className="flex flex-col gap-2">
               {engineers.map(eng => (
                 <div
                   key={eng.id}
-                  className="flex items-center gap-2 px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-xl"
+                  className="flex items-center gap-2 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"
                 >
-                  <div className="w-7 h-7 bg-violet-600/20 border border-violet-500/30 rounded-full flex items-center justify-center shrink-0">
-                    <span className="text-[10px] font-bold text-violet-400">
+                  <div className="w-7 h-7 bg-violet-50 border border-violet-150 rounded-full flex items-center justify-center shrink-0">
+                    <span className="text-[10px] font-bold text-violet-700">
                       {(eng.full_name || eng.email).charAt(0).toUpperCase()}
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold text-zinc-300 truncate">
+                    <p className="text-xs font-semibold text-slate-800 truncate">
                       {eng.full_name || eng.email}
                     </p>
                     {eng.full_name && (
-                      <p className="text-[10px] text-zinc-600 truncate">{eng.email}</p>
+                      <p className="text-[10px] text-slate-500 truncate">{eng.email}</p>
                     )}
                   </div>
                   <button
                     onClick={() => setTerminateTarget(eng)}
                     title="Terminate access"
-                    className="p-1.5 bg-red-950/40 border border-red-800/40 rounded-lg hover:bg-red-900/50 transition-colors shrink-0"
+                    className="p-1.5 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors shrink-0 cursor-pointer"
                   >
-                    <ShieldOff className="w-3 h-3 text-red-400" />
+                    <ShieldOff className="w-3 h-3 text-red-600" />
                   </button>
                 </div>
               ))}
