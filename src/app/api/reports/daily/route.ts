@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { Database } from '@/lib/db.types';
-import { maskAadhaar, maskPan } from '@/lib/utils';
+
 
 // Helper to sanitize CSV fields
 function escapeCSV(val: string | null | undefined): string {
@@ -24,6 +24,11 @@ interface WorkerRecord {
 
 interface SiteRecord {
   name: string;
+}
+
+interface UserProfile {
+  full_name: string | null;
+  email: string;
 }
 
 export async function GET(request: NextRequest) {
@@ -110,6 +115,10 @@ export async function GET(request: NextRequest) {
         ),
         sites (
           name
+        ),
+        profiles!attendance_marked_by_fkey (
+          full_name,
+          email
         )
       `)
       .eq('date', targetDate);
@@ -135,39 +144,22 @@ export async function GET(request: NextRequest) {
     // Generate CSV Content
     const csvHeaders = [
       'Date',
-      'Site ID',
-      'Site Name',
-      'Laborer ID',
-      'Laborer Name',
-      'Mobile',
-      'Trade',
-      'Aadhaar (Masked)',
-      'PAN (Masked)',
-      'Status',
-      'Marked By (User ID)',
-      'Marked At'
+      'Time',
+      'Person Name',
+      'Marked By'
     ];
 
     const csvRows = records.map((record) => {
       const worker = record.laborers as unknown as WorkerRecord | null;
-      const site = record.sites as unknown as SiteRecord | null;
+      const engineer = record.profiles as unknown as UserProfile | null;
       
-      const maskedAadhaar = worker?.aadhaar ? maskAadhaar(worker.aadhaar) : '';
-      const maskedPan = worker?.pan ? maskPan(worker.pan) : '';
+      const time = record.marked_at ? new Date(record.marked_at).toLocaleTimeString() : '';
 
       return [
         record.date,
-        record.site_id,
-        site?.name || 'Unknown',
-        record.laborer_id,
+        time,
         worker?.name || 'Unknown',
-        worker?.mobile || '',
-        worker?.trade || '',
-        maskedAadhaar,
-        maskedPan,
-        record.status,
-        record.marked_by,
-        record.marked_at
+        engineer?.full_name || engineer?.email || 'Unknown'
       ].map(escapeCSV).join(',');
     });
 
@@ -184,9 +176,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Upload CSV to Supabase Storage
-    const fileName = activeSiteId 
-      ? `report_${activeSiteId}_${targetDate}.csv`
-      : `report_consolidated_${targetDate}.csv`;
+    const siteName = (records[0].sites as any)?.name || 'site';
+    const fileName = `${siteName}_${targetDate}.csv`.replace(/[^a-z0-9]/gi, '_');
 
     const filePath = `daily-reports/${targetDate}/${fileName}`;
 

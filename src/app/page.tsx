@@ -195,7 +195,7 @@ export default function DashboardPage() {
             <HardHat className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-base font-bold leading-tight">CLAMS Dashboard</h1>
+            <h1 className="text-base font-bold leading-tight">Attendly Dashboard</h1>
             <p className="text-[10px] text-zinc-500 font-semibold uppercase tracking-wider">Site Terminal</p>
           </div>
         </div>

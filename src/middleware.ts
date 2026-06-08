@@ -50,8 +50,8 @@ export async function middleware(request: NextRequest) {
   const role = profile?.role;
   const isAdmin = role === 'Admin';
 
-  // Admin trying to access engineer routes → send to /admin
-  if (isAdmin && !pathname.startsWith('/admin') && !pathname.startsWith('/api')) {
+  // Admin trying to access engineer routes → send to /admin (except /register)
+  if (isAdmin && !pathname.startsWith('/admin') && !pathname.startsWith('/api') && pathname !== '/register') {
     console.log('[Middleware] Redirecting Admin → /admin');
     return NextResponse.redirect(new URL('/admin', request.url));
   }

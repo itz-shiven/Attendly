@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { createClient } from '@/lib/supabase/client';
 import { compressImage, formatAadhaar, formatPan, maskAadhaar, maskPan } from '@/lib/utils';
@@ -17,13 +17,16 @@ interface SiteInfo {
   location: string | null;
 }
 
-export default function RegisterLaborPage() {
+function RegisterLaborPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const querySiteId = searchParams.get('site');
+  const queryName = searchParams.get('name') || '';
   const queryClient = useQueryClient();
   const supabase = createClient();
 
   // Form states
-  const [name, setName] = useState('');
+  const [name, setName] = useState(queryName);
   const [mobile, setMobile] = useState('');
   const [aadhaar, setAadhaar] = useState('');
   const [pan, setPan] = useState('');
@@ -44,35 +47,44 @@ export default function RegisterLaborPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  // Fetch engineer's profile to get current site
+  // Fetch engineer's profile or resolve admin site query parameter
   const { data: profile, isLoading: isProfileLoading, error: profileError } = useQuery({
-    queryKey: ['engineer-profile'],
+    queryKey: ['engineer-profile', querySiteId],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         router.push('/login');
         throw new Error('Not authenticated');
       }
-      const { data, error } = await supabase
+
+      const { data: profileData, error: profileErr } = await supabase
         .from('profiles')
-        .select(`
-          id,
-          email,
-          site_id,
-          sites!site_id (
-            id,
-            name,
-            location
-          )
-        `)
+        .select('id, email, role, site_id')
         .eq('id', user.id)
         .single();
 
-      if (error) throw error;
-      if (!data.site_id) {
-        throw new Error('You are not currently assigned to any construction site.');
+      if (profileErr) throw profileErr;
+
+      const targetSiteId = querySiteId || profileData.site_id;
+
+      if (!targetSiteId) {
+        throw new Error('No construction site was specified or assigned.');
       }
-      return data;
+
+      // Fetch site details for the target site
+      const { data: siteData, error: siteErr } = await supabase
+        .from('sites')
+        .select('id, name, location')
+        .eq('id', targetSiteId)
+        .single();
+
+      if (siteErr) throw siteErr;
+
+      return {
+        ...profileData,
+        site_id: targetSiteId,
+        sites: siteData
+      };
     },
     retry: false
   });
@@ -220,7 +232,10 @@ export default function RegisterLaborPage() {
       {/* Header */}
       <header className="sticky top-0 bg-zinc-900/80 backdrop-blur-md border-b border-zinc-800 px-4 py-4 z-40 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link href="/" className="p-2 -ml-2 rounded-lg hover:bg-zinc-800 transition-colors">
+          <Link 
+            href={profile?.role === 'Admin' ? `/admin/sites/${profile.site_id}` : '/'} 
+            className="p-2 -ml-2 rounded-lg hover:bg-zinc-800 transition-colors"
+          >
             <ArrowLeft className="w-6 h-6 text-zinc-300" />
           </Link>
           <div>
@@ -451,5 +466,18 @@ export default function RegisterLaborPage() {
         )}
       </main>
     </div>
+  );
+}
+
+export default function RegisterLaborPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col items-center justify-center min-h-screen bg-zinc-950 text-white p-4">
+        <Loader2 className="w-8 h-8 animate-spin text-emerald-500 mb-2" />
+        <p className="text-zinc-400">Loading form...</p>
+      </div>
+    }>
+      <RegisterLaborPageContent />
+    </Suspense>
   );
 }

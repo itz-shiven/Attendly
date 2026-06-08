@@ -85,16 +85,13 @@ export default function LoginPage() {
         <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-900/20 mb-3 border border-emerald-500/30">
           <HardHat className="w-9 h-9 text-white" />
         </div>
-        <h1 className="text-2xl font-black tracking-tight">CLAMS Portal</h1>
-        <p className="text-zinc-500 text-xs mt-1 uppercase tracking-wider font-semibold">
-          Construction Labor Attendance System
-        </p>
+        <h1 className="text-3xl font-black tracking-tight text-emerald-400">Attendly</h1>
       </div>
 
       {/* Auth Card */}
       <div className="w-full max-w-sm bg-zinc-900 border border-zinc-800 rounded-3xl p-6 shadow-2xl">
-        <h2 className="text-lg font-bold mb-5">
-          {isSignUp ? 'Create Engineer Account' : 'Site Engineer Sign In'}
+        <h2 className="text-xl font-bold mb-5 text-center">
+          {isSignUp ? 'Sign Up' : 'Sign In'}
         </h2>
 
         <form onSubmit={handleAuth} className="flex flex-col gap-4">

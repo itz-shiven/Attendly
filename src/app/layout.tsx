@@ -14,13 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CLAMS - Construction Labor Attendance System",
-  description: "Ultra-lightweight, high-performance Construction Labor Attendance Management System.",
+  title: "Attendly - Labor Attendance System",
+  description: "Ultra-lightweight, high-performance Labor Attendance Management System.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "CLAMS",
+    title: "Attendly",
   },
 };
 

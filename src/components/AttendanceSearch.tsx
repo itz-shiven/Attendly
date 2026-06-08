@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Database, AttendanceStatus } from '@/lib/db.types';
 import { maskAadhaar } from '@/lib/utils';
 import { Search, Check, AlertCircle, RefreshCcw, Wifi } from 'lucide-react';
+import Link from 'next/link';
 
 type Laborer = Database['public']['Tables']['laborers']['Row'];
 type Attendance = Database['public']['Tables']['attendance']['Row'];
@@ -21,6 +22,25 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'unmarked' | 'Present' | 'Absent' | 'Half Day'>('all');
   const [syncError, setSyncError] = useState<string | null>(null);
+  const [hasSearched, setHasSearched] = useState(false);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    if (!e.target.value.trim()) {
+      setHasSearched(false);
+    }
+  };
+
+  const handleSearchSubmit = () => {
+    if (searchQuery.trim()) {
+      setHasSearched(true);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    setHasSearched(false);
+  };
 
   const today = useMemo(() => {
     const d = new Date();
@@ -278,25 +298,57 @@ export default function AttendanceSearch({ siteId, userId }: AttendanceSearchPro
         <input
           type="text"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={handleSearchChange}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleSearchSubmit();
+            }
+          }}
           placeholder="Search by Name, Mobile, Aadhaar..."
-          className="w-full pl-12 pr-4 py-3.5 bg-zinc-900 border border-zinc-800 rounded-2xl focus:border-emerald-500 focus:outline-none text-white text-base min-h-[48px] placeholder-zinc-500 transition-colors"
+          className={`w-full pl-12 py-3.5 bg-zinc-900 border border-zinc-800 rounded-2xl focus:border-emerald-500 focus:outline-none text-white text-base min-h-[48px] placeholder-zinc-500 transition-colors ${
+            searchQuery ? (hasSearched && filteredLaborers.length === 0 ? 'pr-[170px]' : 'pr-[130px]') : 'pr-[80px]'
+          }`}
         />
-        {searchQuery && (
-          <button
-            onClick={() => setSearchQuery('')}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold bg-zinc-800 hover:bg-zinc-700 px-2 py-1 rounded text-zinc-400"
-          >
-            Clear
-          </button>
-        )}
+        <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+          {searchQuery && (
+            <button
+              onClick={handleClearSearch}
+              className="text-xs font-semibold bg-zinc-800 hover:bg-zinc-700 px-2.5 py-1.5 rounded-xl text-zinc-400 min-h-[32px] flex items-center justify-center cursor-pointer select-none"
+            >
+              Clear
+            </button>
+          )}
+          {hasSearched && filteredLaborers.length === 0 && searchQuery.trim() ? (
+            <Link
+              href={`/register?site=${siteId}&name=${encodeURIComponent(searchQuery.trim())}`}
+              className="text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white px-3 py-1.5 rounded-xl transition-all shadow-md min-h-[32px] flex items-center justify-center"
+            >
+              Create Profile
+            </Link>
+          ) : (
+            <button
+              onClick={handleSearchSubmit}
+              className="text-xs font-bold bg-zinc-800 hover:bg-zinc-750 active:scale-95 text-zinc-300 border border-zinc-700/80 px-3 py-1.5 rounded-xl transition-all shadow-sm min-h-[32px] flex items-center justify-center cursor-pointer select-none"
+            >
+              Search
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Laborer Directory List */}
       <div className="flex flex-col gap-3">
         {filteredLaborers.length === 0 ? (
-          <div className="text-center py-12 bg-zinc-900/20 border border-dashed border-zinc-850 rounded-2xl">
+          <div className="text-center py-12 bg-zinc-900/20 border border-dashed border-zinc-850 rounded-2xl flex flex-col items-center justify-center gap-3">
             <p className="text-sm text-zinc-500">No laborers found matching filters.</p>
+            {searchQuery.trim() && (
+              <Link
+                href={`/register?site=${siteId}&name=${encodeURIComponent(searchQuery.trim())}`}
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white text-xs font-bold rounded-xl transition-all shadow-md mt-1"
+              >
+                Register &quot;{searchQuery.trim()}&quot;
+              </Link>
+            )}
           </div>
         ) : (
           filteredLaborers.map((worker) => {
